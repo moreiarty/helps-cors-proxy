@@ -2,7 +2,9 @@ const express = require('express');
 const request = require('request');
 const cors = require('cors');
 
-const apiServerHost = 'https://utsapi.me';
+const apiServerHost = process.argv[2];
+console.log(apiServerHost);
+ // 'https://utsapi.me'
 
 const app = express();
 app.use(cors());
