@@ -8,8 +8,9 @@ const app = express();
 app.use(cors());
 
 app.use('/', function(req, res) {  
+  console.log(req.url);
   const url = apiServerHost + req.url;
   req.pipe(request(url)).pipe(res);
 });
 
-app.listen(process.env.PORT || 80);
+app.listen(4000);
