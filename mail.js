@@ -13,7 +13,7 @@ mail('sender@example.com', 'visualbbasic@gmail.com', 'subject: test\r\n\r\nhello
  * @param {String|Array} to E-mail address or a list of addresses of the receiver
  * @param {[type]} message Mime message
  */
-function mail(from, to, message) {
+function mail(from, to, message, done, error) {
     var client = simplesmtp.connect(465, 'smtp.gmail.com', {
         secureConnection: true,
         auth: config,
@@ -36,12 +36,7 @@ function mail(from, to, message) {
         client.quit();
     });
 
-    client.on('error', function(err) {
-        console.log('ERROR');
-        console.log(err);
-    });
+    client.on('error', error);
 
-    client.on('end', function() {
-        console.log('DONE')
-    });
+    client.on('end', done);
 }
