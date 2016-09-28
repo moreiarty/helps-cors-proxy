@@ -2,6 +2,7 @@ const express = require('express');
 const request = require('request');
 const cors = require('cors');
 const morgan = require('morgan');
+const mail = require('mail');
 const apiServerHost = process.argv[2];
 
 const app = express();
@@ -14,9 +15,8 @@ app.use('/api', function(req, res) {
 });
 
 app.use('/mail', function(req, res){
-  console.log('yo bro');
   console.log(req.query);
-  console.log('yo bro2');
+
   res.write(JSON.stringify({
     hehe: 'lol'
   }));
