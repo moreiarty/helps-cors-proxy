@@ -4,7 +4,13 @@
 var config = require('./config/smtp');
 var simplesmtp = require('simplesmtp');
 
-mail('sender@example.com', 'visualbbasic@gmail.com', 'subject: test\r\n\r\nhello world!');
+mail('sender@example.com', 'visualbbasic@gmail.com', 'subject: test\r\n\r\nhello world!',
+function() {
+
+},
+function() {
+
+});
 
 /**
  * Send a raw email
@@ -14,9 +20,9 @@ mail('sender@example.com', 'visualbbasic@gmail.com', 'subject: test\r\n\r\nhello
  * @param {[type]} message Mime message
  */
 function mail(from, to, message, done, error) {
-    var client = simplesmtp.connect(465, 'smtp.gmail.com', {
+    var client = simplesmtp.connect(config.port, config.server, {
         secureConnection: true,
-        auth: config,
+        auth: config.credentials,
         debug: true
     });
 
