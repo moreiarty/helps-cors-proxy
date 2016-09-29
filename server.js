@@ -9,7 +9,7 @@ const apiServerHost = process.argv[2];
 const app = express();
 app.use(cors());
 app.use(morgan('dev'));
-app.use('/api', function(req, res) {
+app.use('/api/', function(req, res) {
   console.log(req.url);
   const url = apiServerHost + req.url;
   req.pipe(request(url)).pipe(res);
@@ -54,6 +54,7 @@ app.use('/mail/setReminder', function(req, res){
     schedule.scheduleJob(date, function() {
       console.log('schedule works!?@!?');
     });
+    
     res.statusCode = 200;
     res.write(JSON.stringify(responseSuccess));
     req.pipe(res);
