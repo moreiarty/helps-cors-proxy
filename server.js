@@ -19,7 +19,7 @@ app.use('/api/', function(req, res) {
 app.use('/mail/setReminder', function(req, res){
   var year = parseInt(req.query.year);
   var month = parseInt(req.query.month);
-  var day  = parseInt(req.query.date);
+  var date  = parseInt(req.query.date);
   var hour = parseInt(req.query.hour);
   var minute = parseInt(req.query.minute);
   var second = parseInt(req.query.second);
@@ -35,7 +35,7 @@ app.use('/mail/setReminder', function(req, res){
 
   //TODO: Find proper status code
   //TODO: Stronger validation required
-  if(req.query === undefined || year === undefined || month === undefined || day === undefined
+  if(req.query === undefined || year === undefined || month === undefined || date === undefined
   || hour === undefined || minute === undefined || second === undefined){
     res.statusCode = 404;
     res.write(JSON.stringify(responseError));
@@ -50,7 +50,16 @@ app.use('/mail/setReminder', function(req, res){
     minute = minute - 1;
     second = second - 1;*/
 
-    var date = new Date(year, month, day, hour, minute, second);
+    var date = new Date(year, month, date, hour, minute, second);
+
+    console.log('passed in date');
+    console.log('hour', date.getYear());
+    console.log('month', date.getMonth());
+    console.log('date', date.getDate());
+    console.log('hours', date.getHours());
+    console.log('minutes', date.getMinutes());
+    console.log('seconds', date.getSeconds());
+
 
     schedule.scheduleJob(date, function() {
       console.log('schedule works!?@!?');
