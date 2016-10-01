@@ -10,8 +10,11 @@ Expressjs CORS proxy for development
 ## SMTP Mail NOTE from Jason
 You must have config file ready in order to use SMTP mail feature.
 1. You must acquire SMTP details from your SMTP provider such as Gmail or Mandrill
+
 2. Create smtp.js file under config/smtp.json
+
 3. Insert following configuration detail into the smtp.json file
+
 ```
 module.exports = {
     server: 'smtp.gmail.com',
