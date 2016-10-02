@@ -13,7 +13,9 @@ var simplesmtp = require('simplesmtp');
  * @param {String|Array} to E-mail address or a list of addresses of the receiver
  * @param {[type]} message Mime message
  */
-function mail(from, to, message, done, error) {
+module.exports = {
+
+    mail: function(from, to, message, done, error) {
     var client = simplesmtp.connect(config.port, config.server, {
         secureConnection: true,
         auth: config.credentials,
@@ -39,4 +41,6 @@ function mail(from, to, message, done, error) {
     client.on('error', error);
 
     client.on('end', done);
+}
+
 }

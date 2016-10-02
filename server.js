@@ -2,11 +2,12 @@ const express = require('express');
 const request = require('request');
 const cors = require('cors');
 const morgan = require('morgan');
-const mail = require('mail');
+const smtpMail = require('./jason_mail');
 const schedule = require('node-schedule');
 const apiServerHost = process.argv[2];
 
 const app = express();
+
 app.use(cors());
 app.use(morgan('dev'));
 app.use('/api/', function(req, res) {
@@ -46,12 +47,22 @@ app.use('/mail/setReminder', function(req, res){
     return this;
   } else {
 
+    //Parsing date to int
+    year = parseInt(year);
+    month = parseInt(month);
+    date = parseInt(date);
+    hour = parseInt(hour);
+    minute = parseInt(minute);
+    second = parseInt(second);
+
     //Calculating offset vals  http://www.w3schools.com/js/js_date_methods.asp
     //TODO: Double check hour minute second offset values
     month = month - 1;
     /*hour = hour - 1;
      minute = minute - 1;
      second = second - 1;*/
+
+
 
     var date = new Date(year, month, date, hour, minute, second);
 
@@ -63,17 +74,11 @@ app.use('/mail/setReminder', function(req, res){
     console.log('minutes', date.getMinutes());
     console.log('seconds', date.getSeconds());
 
-    year = parseInt(year);
-    month = parseInt(month);
-    date = parseInt(date);
-    hour = parseInt(hour);
-    minute = parseInt(minute);
-    second = parseInt(second);
 
     schedule.scheduleJob(date, function() {
 
       console.log('schedule invoked!');
-      mail('pranavandfriends@gmail.com', to, 'subject: '+subject+'\r\n\r\n'+content,
+      smtpMail.mail('pranavandfriends@gmail.com', to, 'subject: '+subject+'\r\n\r\n'+content,
           function() {
             console.log('sent email successfully');
           },
