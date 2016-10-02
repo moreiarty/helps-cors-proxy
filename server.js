@@ -5,8 +5,10 @@ const morgan = require('morgan');
 const smtpMail = require('./jason_mail');
 const schedule = require('node-schedule');
 const apiServerHost = process.argv[2];
-
 const app = express();
+
+//Setup timezone
+process.env.TZ = 'Australia/Sydney';
 
 app.use(cors());
 app.use(morgan('dev'));
