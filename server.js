@@ -17,12 +17,12 @@ app.use('/api/', function(req, res) {
 });
 
 app.use('/mail/setReminder', function(req, res){
-  var year = parseInt(req.query.year);
-  var month = parseInt(req.query.month);
-  var date  = parseInt(req.query.date);
-  var hour = parseInt(req.query.hour);
-  var minute = parseInt(req.query.minute);
-  var second = parseInt(req.query.second);
+  var year = req.query.year;
+  var month = req.query.month;
+  var date  = req.query.date;
+  var hour = req.query.hour;
+  var minute = req.query.minute;
+  var second = req.query.second;
   var to = req.query.to;
   var subject = req.query.subject;
   var content = req.query.content;
@@ -63,6 +63,12 @@ app.use('/mail/setReminder', function(req, res){
     console.log('minutes', date.getMinutes());
     console.log('seconds', date.getSeconds());
 
+    year = parseInt(year);
+    month = parseInt(month);
+    date = parseInt(date);
+    hour = parseInt(hour);
+    minute = parseInt(minute);
+    second = parseInt(second);
 
     schedule.scheduleJob(date, function() {
 
