@@ -23,6 +23,9 @@ app.use('/mail/setReminder', function(req, res){
   var hour = parseInt(req.query.hour);
   var minute = parseInt(req.query.minute);
   var second = parseInt(req.query.second);
+  var to = req.query.to;
+  var subject = req.query.subject;
+  var content = req.query.content;
 
   var responseSuccess = {
     message: 'You have successfully scheduled a job bro'
@@ -47,8 +50,8 @@ app.use('/mail/setReminder', function(req, res){
     //TODO: Double check hour minute second offset values
     month = month - 1;
     /*hour = hour - 1;
-    minute = minute - 1;
-    second = second - 1;*/
+     minute = minute - 1;
+     second = second - 1;*/
 
     var date = new Date(year, month, date, hour, minute, second);
 
@@ -62,7 +65,16 @@ app.use('/mail/setReminder', function(req, res){
 
 
     schedule.scheduleJob(date, function() {
-      console.log('schedule works!?@!?');
+
+      console.log('schedule invoked!');
+      mail('pranavandfriends@gmail.com', to, 'subject: '+subject+'\r\n\r\n'+content,
+          function() {
+            console.log('sent email successfully');
+          },
+          function() {
+            console.log('failed at sending email!');
+          });
+
     });
     
     res.statusCode = 200;

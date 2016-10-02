@@ -4,13 +4,7 @@
 var config = require('./config/smtp');
 var simplesmtp = require('simplesmtp');
 
-mail('sender@example.com', 'visualbbasic@gmail.com', 'subject: test\r\n\r\nhello world!',
-function() {
 
-},
-function() {
-
-});
 
 /**
  * Send a raw email
