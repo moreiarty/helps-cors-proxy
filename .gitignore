@@ -38,3 +38,5 @@ jspm_packages
 
 #smtp config
 config/smtp.js
+
+.idea
