@@ -7,12 +7,20 @@ import { sendSMS } from './helpers/sms.helper';
 const schedule = require('node-schedule');
 const apiServerHost = process.argv[2];
 const app = express();
+const bodyParser = require('body-parser');
+
+require('./helpers/db.helper');
 
 //Setup timezone
 process.env.TZ = 'Australia/Sydney';
 
 app.use(cors());
 app.use(morgan('dev'));
+app.use(bodyParser.json({ limit: '150mb' }));
+app.use(bodyParser.urlencoded({
+  limit: '150mb',
+  extended: true,
+}));
 app.use('/api/', function(req, res) {
   console.log('routing correctly');
   console.log(req.url);

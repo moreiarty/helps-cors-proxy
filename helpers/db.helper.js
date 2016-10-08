@@ -1,43 +1,37 @@
 const sql = require('mssql');
+// const connection = new sql.Connection({
+//   user: 'usr_db',
+//   password: 'passw0rd',
+//   server: '52.62.213.92',
+//   port: '1433',
+//   database: 'elssa_booking'
+// }).connect();
 
 export async function getWorkshops() {
   // try {
-  //   await sql.connect("mssql://usr_db:passw0rd@52.62.213.92:1433/elssa_booking");
-  //     const request = new sql.Request();
-  //     const workshops = await request.query('select * from workshops');
-  //     return workshops;
+  //   const request = new sql.Request(connection);
+  //   const workshops = await request.query('SELECT TOP 10 * FROM Workshops');
+  //   return workshops;
   // } catch (err) {
   //   console.log(err);
   // }
-  sql.connect("mssql://usr_db:passw0rd@52.62.213.92:1433/elssa_booking").then(function() {
-      // Query
-      new sql.Request().query('select * from workshops').then(function(recordset) {
-          console.dir(recordset);
-      }).catch(function(err) {
-          // ... query error checks
-          console.log(err);
-      });
+  try {
+    await sql.connect("mssql://usr_db:passw0rd@52.62.213.92:1433/elssa_booking");
+    const request = new sql.Request();
+    const workshops = await request.query('SELECT TOP 10 * FROM Workshops');
+    return workshops;
+  } catch (err) {
+    console.log(err);
+  }
+}
 
-      // // Stored Procedure
-
-      // new sql.Request()
-      // .input('input_parameter', sql.Int, value)
-      // .output('output_parameter', sql.VarChar(50))
-      // .execute('procedure_name').then(function(recordsets) {
-      //     console.dir(recordsets);
-      // }).catch(function(err) {
-      //     // ... execute error checks
-      // });
-
-      // // ES6 Tagged template literals (experimental)
-
-      // sql.query`select * from mytable where id = ${value}`.then(function(recordset) {
-      //     console.dir(recordset);
-      // }).catch(function(err) {
-      //     // ... query error checks
-      // });
-  }).catch(function(err) {
-      // ... connect error checks
-      console.log(err);
-  });
+export async function createWorkshop(id, topic, description, campusID, starting, ending, maximum, cutoff, creatorID, archiverID, archived, WorkShopSetID, type, created) {
+  try {
+    await sql.connect("mssql://usr_db:passw0rd@52.62.213.92:1433/elssa_booking");
+    const request = new sql.Request();
+    const workshop = await request.query(`SET IDENTITY_INSERT [dbo].[workshops] ON  INSERT [dbo].[workshops] ([id], [topic], [description], [targetingGroup], [campusID], [starting], [ending], [maximum], [cutoff], [creatorID], [created], [modifierID], [modified], [archiverID], [archived], [WorkShopSetID], [type], [reminder_num], [reminder_sent]) VALUES (${id}, N'${topic}', N'${description}', NULL, ${campusID}, '${starting}', '${ending}', ${maximum}, ${cutoff}, ${creatorID}, '${created}', NULL, NULL, ${archiverID}, '${archived}', ${WorkShopSetID}, N'${type}', 0, 0) SET IDENTITY_INSERT [dbo].[workshops] OFF`);
+    return workshop;
+  } catch (err) {
+    console.log(err);
+  }
 }
