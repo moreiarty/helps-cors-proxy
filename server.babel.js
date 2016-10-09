@@ -151,6 +151,8 @@ app.use('/mail/setReminder', function(req, res){
   }
 });
 
+require('./routes/index.routes')(app);
+
 console.log('YOUR AWESOME APP STARTED AT: ');
 var date = new Date();
 console.log('hour', date.getYear());
