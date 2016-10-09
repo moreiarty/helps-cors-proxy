@@ -16,31 +16,30 @@ var simplesmtp = require('simplesmtp');
 module.exports = {
 
     mail: function(from, to, message, done, error) {
-    var client = simplesmtp.connect(config.port, config.server, {
-        secureConnection: true,
-        auth: config.credentials,
-        debug: true
-    });
-
-    client.once('idle', function() {
-        client.useEnvelope({
-            from: from,
-            to: [].concat(to || [])
+        var client = simplesmtp.connect(config.port, config.server, {
+            secureConnection: true,
+            auth: config.credentials,
+            debug: true
         });
-    });
 
-    client.on('message', function() {
-        client.write(message.replace(/\r?\n/g, '\r\n').replace(/^\./gm, '..'));
-        client.end();
-    });
+        client.once('idle', function() {
+            client.useEnvelope({
+                from: from,
+                to: [].concat(to || [])
+            });
+        });
 
-    client.on('ready', function(success) {
-        client.quit();
-    });
+        client.on('message', function() {
+            client.write(message.replace(/\r?\n/g, '\r\n').replace(/^\./gm, '..'));
+            client.end();
+        });
 
-    client.on('error', error);
+        client.on('ready', function(success) {
+            client.quit();
+        });
 
-    client.on('end', done);
-}
+        client.on('error', error);
 
+        client.on('end', done);
+    }
 }
