@@ -69,6 +69,7 @@ exports.mailReminder = async (req, res) => {
   }
 
   const date = new Date();
+  date.setMinutes(date.getMinutes()+1);
 
   console.log('Email at', date);
 
@@ -101,6 +102,8 @@ exports.smsReminder = async (req, res) => {
   }
 
   const date = new Date();
+  date.setMinutes(date.getMinutes()+1);
+
   console.log('SMS at', date);
 
   schedule.scheduleJob(date, function() {
