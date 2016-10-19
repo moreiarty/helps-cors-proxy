@@ -12,7 +12,7 @@ const bodyParser = require('body-parser');
 require('./helpers/db.helper');
 
 //Setup timezone
-// process.env.TZ = 'Australia/Sydney';
+process.env.TZ = 'Australia/Sydney';
 
 app.use(cors());
 app.use(morgan('dev'));
