@@ -70,6 +70,8 @@ exports.mailReminder = async (req, res) => {
 
   const date = new Date(remindAt);
 
+  console.log('Email at', date);
+
   schedule.scheduleJob(date, function() {
     console.log('schedule invoked!');
     smtpMail.mail('pranavandfriends@gmail.com', to, 'subject: '+subject+'\r\n\r\n'+content,
@@ -79,9 +81,8 @@ exports.mailReminder = async (req, res) => {
         function() {
           console.log('failed at sending email!');
         });
-
-    res.status(200).send(responseSuccess);
   });
+  res.status(200).send(responseSuccess);
 };
 
 exports.smsReminder = async (req, res) => {
@@ -100,6 +101,7 @@ exports.smsReminder = async (req, res) => {
   }
 
   const date = new Date(remindAt);
+  console.log('SMS at', date);
 
   schedule.scheduleJob(date, function() {
     console.log('SMS Scheduled');
