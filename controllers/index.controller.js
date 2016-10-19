@@ -68,7 +68,7 @@ exports.mailReminder = async (req, res) => {
     res.status(400).send(responseError);
   }
 
-  const date = new Date(remindAt);
+  const date = new Date();
 
   console.log('Email at', date);
 
@@ -100,7 +100,7 @@ exports.smsReminder = async (req, res) => {
     res.status(400).send(responseError);
   }
 
-  const date = new Date(remindAt);
+  const date = new Date();
   console.log('SMS at', date);
 
   schedule.scheduleJob(date, function() {
