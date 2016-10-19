@@ -5,4 +5,6 @@ module.exports = function (app) {
   app.get('/', index.someMethod);
   app.get('/getWorkshops', index.getWorkshops);
   app.post('/emailNotification', index.emailNotification);
+  app.post('/mail/setReminder', index.mailReminder);
+  app.post('/sms/setReminder', index.smsReminder);
 };

@@ -1,5 +1,7 @@
 import { getWorkshops, createWorkshop } from '../helpers/db.helper';
 const smtpMail = require('../jason_mail');
+import { sendSMS } from '../helpers/sms.helper';
+const schedule = require('node-schedule');
 
 exports.someMethod = async (req, res) => {
   // let passedParams = {};
@@ -49,4 +51,60 @@ exports.emailNotification = async (req, res) => {
       function() {
         console.log('failed at sending email!');
       });
+};
+
+exports.mailReminder = async (req, res) => {
+  var responseSuccess = {
+    message: 'You have successfully scheduled a job bro'
+  };
+
+  var responseError = {
+    message: 'You cannot execute this method without fullfilling all parameters. year, month, day, hour, minute, second required'
+  };
+
+  const {remindAt, to, subject, content } = req.body;
+
+  if (!remindAt || !to || !subject || !content) {
+    res.status(400).send(responseError);
+  }
+
+  const date = new Date(remindAt);
+
+  schedule.scheduleJob(date, function() {
+    console.log('schedule invoked!');
+    smtpMail.mail('pranavandfriends@gmail.com', to, 'subject: '+subject+'\r\n\r\n'+content,
+        function() {
+          console.log('sent email successfully');
+        },
+        function() {
+          console.log('failed at sending email!');
+        });
+
+    res.status(200).send(responseSuccess);
+  });
+};
+
+exports.smsReminder = async (req, res) => {
+  var responseSuccess = {
+    message: 'You have successfully scheduled a job bro'
+  };
+
+  var responseError = {
+    message: 'You cannot execute this method without fullfilling all parameters. year, month, day, hour, minute, second required'
+  };
+
+  const {remindAt, number, message } = req.body;
+
+  if (!remindAt || !number || !message) {
+    res.status(400).send(responseError);
+  }
+
+  const date = new Date(remindAt);
+
+  schedule.scheduleJob(date, function() {
+    console.log('SMS Scheduled');
+    sendSMS(number, message);
+  });
+
+  res.status(200).send(responseSuccess);
 };
