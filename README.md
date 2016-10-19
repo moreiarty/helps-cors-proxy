@@ -5,7 +5,7 @@ Expressjs CORS proxy for development
 1. Install nvm (https://github.com/creationix/nvm) and git (https://git-scm.com/download/linux)
 2. Clone this repository into a linux instance
 3. Run `npm install` and `npm install -g forever`
-4. Run `npm run start http://[IP or Hostname where your HELPS API is deployed]`
+4. Run `npm run start http://[IP or Hostname where your HELPS API is deployed]/api`
 
 ## SMTP Mail NOTE from Jason
 You must have config file ready in order to use SMTP mail feature.

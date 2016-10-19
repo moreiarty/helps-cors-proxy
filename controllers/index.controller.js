@@ -1,4 +1,5 @@
 import { getWorkshops, createWorkshop } from '../helpers/db.helper';
+const smtpMail = require('../jason_mail');
 
 exports.someMethod = async (req, res) => {
   // let passedParams = {};
@@ -36,4 +37,16 @@ exports.createWorkshop = async (req, res) => {
 exports.getWorkshops = async (req, res) => {
   const workshops = await getWorkshops();
   res.status(200).send({ workshops, });
+};
+
+exports.emailNotification = async (req, res) => {
+  const {email, message, subject} = req.body;
+
+  smtpMail.mail('pranavandfriends@gmail.com', email, 'subject: '+subject+'\r\n\r\n'+message,
+      function() {
+        console.log('sent email successfully');
+      },
+      function() {
+        console.log('failed at sending email!');
+      });
 };
